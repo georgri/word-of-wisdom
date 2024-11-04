@@ -36,9 +36,16 @@ Run linters:
 3. Adjustable complexity of challenges.
 4. Hashcash is used as a proof-of-work algorithm for various cryptocurrencies, e.g. Bitcoin.
 
+### Possible future roadmap (depending on the product requirements)
+1. Implement a RAM-bound algorithm (MBound) as it provides a smaller time difference to solve between new and old client hardware.
+2. Allow switching between algorithms in settings.
+3. Generate challenges for both algorithms to allow clients to choose which one to solve (possibly solving both concurrently).
+
 Sources:
+
+https://en.wikipedia.org/wiki/Hashcash
 
 http://www.hashcash.org/hashcash.pdf
 
-https://en.wikipedia.org/wiki/Hashcash
+http://www.hashcash.org/papers/memory-bound-crypto.pdf
 

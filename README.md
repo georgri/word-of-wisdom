@@ -30,11 +30,15 @@ Run linters:
 
 `make lint`
 
-### Reasoning behind Hashcash choice
+### Reasoning behind the choice of Hashcash 
 1. Easy to implement and to verify the code.
 2. Solution is efficiently verifiable on the server-side.
-3. Hashcash is used as a proof-of-work algorithm for various cryptocurrencies, e.g. Bitcoin.
+3. Adjustable complexity of challenges.
+4. Hashcash is used as a proof-of-work algorithm for various cryptocurrencies, e.g. Bitcoin.
 
-Sources
-https://en.wikipedia.org/wiki/Hashcash
+Sources:
+
 http://www.hashcash.org/hashcash.pdf
+
+https://en.wikipedia.org/wiki/Hashcash
+

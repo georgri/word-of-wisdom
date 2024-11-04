@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	localFileWithQuotes = "data/quotes.txt"
+	localFileWithQuotes = "resources/quotes.txt"
 )
 
 // GetHardcodedQuotes returns a predefined hardcoded quote list

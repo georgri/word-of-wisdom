@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"strings"
 	"time"
 
 	log "github.com/rs/zerolog"
@@ -105,19 +106,20 @@ func (s *server) processConn(conn net.Conn) {
 		}
 	}()
 	reader := bufio.NewReader(conn)
-	err := conn.SetReadDeadline(time.Now().Add(s.readTimeout))
+
+	msgLine, err := reader.ReadString('\n')
+	if err != nil {
+		s.logger.Err(err).Msg("failed to read the request line")
+		return
+	}
+
+	err = conn.SetReadDeadline(time.Now().Add(s.readTimeout))
 	if err != nil {
 		s.logger.Warn().Err(err).Msg("failed to set the read timeout")
 	}
 
-	challenge := &domain.HashcashChallenge{}
-	err = json.NewDecoder(reader).Decode(challenge)
-	if err != nil {
-		s.logger.Err(err).Msg("failed to decode a challenge from the message")
-		return
-	}
-	// if the challenge id is empty => it's a challenge request
-	if len(challenge.ID) == 0 {
+	// if the request is empty => it's a challenge request
+	if len(strings.TrimSpace(msgLine)) == 0 {
 		// create, save and return a new challenge
 		var newChallenge *domain.HashcashChallenge
 		newChallenge, err = s.hashcashService.GenerateChallenge(s.challengeComplexity, s.resourceID)
@@ -137,6 +139,14 @@ func (s *server) processConn(conn net.Conn) {
 		}
 		return
 	}
+
+	challenge := &domain.HashcashChallenge{}
+	err = json.Unmarshal([]byte(msgLine), challenge)
+	if err != nil {
+		s.logger.Err(err).Msg("failed to decode a challenge from the message")
+		return
+	}
+
 	origChallenge, ok := s.challengeStorage.GetChallenge(challenge.ID)
 	if !ok {
 		s.logger.Err(err).Msg("orig challenge not found")
@@ -149,7 +159,7 @@ func (s *server) processConn(conn net.Conn) {
 		return
 	}
 	// return the quote
-	_, err = io.WriteString(conn, s.randomQuoteService.GetQuote())
+	_, err = io.WriteString(conn, s.randomQuoteService.GetQuote()+"\n")
 	if err != nil {
 		s.logger.Err(err).Msg("failed to return the word of wisdom")
 		return

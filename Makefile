@@ -9,13 +9,13 @@ run-client:
 
 build-and-run-docker:
 	docker compose up --detach --force-recreate --build server --build client
-	docker logs word-of-wisdom-server
-	docker logs word-of-wisdom-client
+	docker logs wow-server
+	docker logs wow-client
 
 run-docker:
 	docker compose up --detach --force-recreate
-	docker logs word-of-wisdom-server
-	docker logs word-of-wisdom-client
+	docker logs wow-server
+	docker logs wow-client
 
 lint:
 	golangci-lint -v run ./...

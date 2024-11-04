@@ -45,7 +45,7 @@ func main() {
 	}(conn)
 
 	// init challenge
-	_, err = conn.Write([]byte("{}"))
+	_, err = conn.Write([]byte("\n"))
 	if err != nil {
 		logger.Err(err).Msg("failed to init challenge")
 		return
@@ -86,8 +86,7 @@ func main() {
 		}
 	}(conn)
 
-	writer := bufio.NewWriter(conn)
-	err = json.NewEncoder(writer).Encode(challenge)
+	err = json.NewEncoder(conn).Encode(challenge)
 	if err != nil {
 		logger.Err(err).Msg("failed to send a solution to the challenge ")
 		return

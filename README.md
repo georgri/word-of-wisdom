@@ -8,11 +8,11 @@
 
 Start server locally without docker:
 
-`SERVER_HOST=localhost:13371 CHALLENGE_COMPLEXITY=12 SOLUTION_TIMEOUT=15s READ_TIMEOUT=30s make run-server`
+`SERVER_HOST=:13371 CHALLENGE_COMPLEXITY=12 SOLUTION_TIMEOUT=15s READ_TIMEOUT=30s make run-server`
 
 Start client locally without docker:
 
-`READ_TIMEOUT=30s SERVER_ADDR=localhost:13371 make run-client`
+`READ_TIMEOUT=30s SERVER_HOST=:13371 make run-client`
 
 Build and run docker images for server and client:
 

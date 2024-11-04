@@ -1,34 +1,32 @@
-version: '3.7'
-
 services:
   server:
     build:
       context: ./
       dockerfile: ./server.Dockerfile
-    container_name: word-of-wisdom-server
+    container_name: wow-server
     environment:
-      SERVER_ADDR: ":13371"
-      CHALLENGE_TIMEOUT: "20s"
-      CHALLENGE_COMPLEXITY: "9"
+      SERVER_HOST: ":13371"
+      CHALLENGE_TIMEOUT: "15s"
+      CHALLENGE_COMPLEXITY: "12"
       READ_TIMEOUT: "30s"
     ports:
       - "13371:13371"
     networks:
-      - word-of-wisdom
+      - wow_network
 
   client:
     build:
       context: ./
       dockerfile: ./client.Dockerfile
-    container_name: word-of-wisdom-client
+    container_name: wow-client
     environment:
       READ_TIMEOUT: "30s"
-      SERVER_ADDR: "server:13371"
+      SERVER_HOST: "server:13371"
     networks:
-      - word-of-wisdom
+      - wow_network
     depends_on:
       - server
 
 networks:
-  word-of-wisdom:
+  wow_network:
     driver: bridge

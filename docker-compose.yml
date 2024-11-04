@@ -2,7 +2,7 @@ services:
   server:
     build:
       context: ./
-      dockerfile: ./server.Dockerfile
+      dockerfile: wow-server.Dockerfile
     container_name: wow-server
     environment:
       SERVER_HOST: ":13371"
@@ -17,7 +17,7 @@ services:
   client:
     build:
       context: ./
-      dockerfile: ./client.Dockerfile
+      dockerfile: wow-client.Dockerfile
     container_name: wow-client
     environment:
       READ_TIMEOUT: "30s"
